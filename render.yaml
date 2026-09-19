@@ -1,0 +1,9 @@
+# Render blueprint - one free web service. One worker on purpose: the TV<->phone
+# sync keeps its state in memory, so extra workers would each have their own copy.
+services:
+  - type: web
+    name: sadhana-prototype
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 1 --threads 8 --bind 0.0.0.0:$PORT

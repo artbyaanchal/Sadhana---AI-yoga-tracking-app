@@ -1,0 +1,5 @@
+Flask
+# --- below are only needed for the optional legacy desktop-webcam tracker (/legacy) ---
+opencv-python
+mediapipe
+numpy
