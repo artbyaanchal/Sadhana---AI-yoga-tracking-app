@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1C4E6B">
 <title>Sadhana</title>
+<script>
+/* opened on a real phone (not the /present demo frame)? -> fill the phone's own screen */
+(function(){
+  try{
+    var q = new URLSearchParams(location.search);
+    var phone = /Android|iPhone|iPod|Mobi/i.test(navigator.userAgent) && Math.min(screen.width, screen.height) <= 600;
+    if (phone && q.get('tv') !== '1' && q.get('frame') !== '1') document.documentElement.classList.add('native');
+  }catch(e){}
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">

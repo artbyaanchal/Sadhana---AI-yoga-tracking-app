@@ -145,10 +145,13 @@ function scoreRing(pct, size=150, thick=12){
 function iconBtn(name, onClick){
   return h('button',{class:'icon-btn', 'aria-label':name, onclick:onClick, html:ICONS[name]||''});
 }
-function topBar({back, title, center, right} = {}){
-  return h('div',{class:'topnav'+(center?' center':'')},
+function topBar({back, title, center, right, sub} = {}){
+  const h2 = title ? h('h2',{class: title.length > 20 ? 'long' : ''}, title) : null;
+  // `sub` = a sub-heading that belongs to the header: it stays put (never scrolls) and the back
+  // arrow is centred on the title + sub-heading block
+  return h('div',{class:'topnav'+(center?' center':'')+(sub?' has-sub':'')},
     back ? iconBtn('back', back) : null,
-    title ? h('h2',{}, title) : h('div',{style:{flex:1}}),
+    title ? (sub ? h('div',{class:'tn-text'}, h2, h('p',{class:'tn-sub'}, sub)) : h2) : h('div',{style:{flex:1}}),
     right ? h('div',{class:'right'}, right) : null
   );
 }
@@ -303,7 +306,7 @@ function HRuler({min, max, step=1, value, unit='kg', onChange}){
  *  VERTICAL RULER  (height)
  * ============================================================= */
 function VRuler({initialCm=170, onChange}){
-  const PX = 26;                    // px per unit-tick
+  const PX = 40;                    // px per unit-tick - same step as the weight ruler (HRuler PX = 40)
   const state = { unit:'ft', cm:initialCm };
   const scale = h('div',{class:'scale'});
   const knob  = h('div',{class:'knob'});
@@ -325,7 +328,7 @@ function VRuler({initialCm=170, onChange}){
     scale.innerHTML=''; cells=[];
     const [lo,hi] = range();
     for (let t = hi; t >= lo; t--){          // top = tall
-      const major = state.unit==='cm' ? t%5===0 : true;
+      const major = true;                    // every cm / inch is labelled, like every kg on the weight ruler
       const c = h('div',{class:'tick'+(major?' major':''), dataset:{t}},
         h('b',{}, major ? labelFor(t) : ''), h('i',{}));
       cells.push(c); scale.append(c);

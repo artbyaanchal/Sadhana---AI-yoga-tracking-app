@@ -136,9 +136,9 @@ SCREENS['ob-gender'] = (p = {}) => {
   let sel = Store.get('gender', null);
   if (sel === 'girl') sel = 'female'; if (sel === 'boy') sel = 'male';
   const cardF=h('button',{class:'gender'+(sel==='female'?' sel':''), onclick:()=>pick('female')},
-    h('div',{class:'pic'}, h('img',{src:IMG+'f_warrior.png'})), h('b',{}, 'Female'));
+    h('div',{class:'pic'}, h('img',{src:IMG+'f_gender.png'})), h('b',{}, 'Female'));
   const cardM=h('button',{class:'gender'+(sel==='male'?' sel':''), onclick:()=>pick('male')},
-    h('div',{class:'pic'}, h('img',{src:IMG+'m_warrior.png'})), h('b',{}, 'Male'));
+    h('div',{class:'pic'}, h('img',{src:IMG+'m_gender.png'})), h('b',{}, 'Male'));
   const pn=h('div',{class:'btn-text', style:{fontWeight:sel==='none'?'700':'600'},
     onclick:()=>pick('none')}, 'Prefer not to say');
   function pick(v){ sel=v; cardF.classList.toggle('sel',v==='female'); cardM.classList.toggle('sel',v==='male'); }
@@ -158,6 +158,17 @@ SCREENS['ob-gender'] = (p = {}) => {
   });
 };
 
+/* "Drag the scale to choose your value" - arrows above the text (Figma 296:3989 / 357:11123) */
+function rulerHint(axis){
+  const A = (d)=> `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#4A5A66" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
+  const pair = axis === 'v'
+    ? A('M9 15V3M4 8l5-5 5 5') + A('M9 3v12M4 10l5 5 5-5')      // up, down
+    : A('M15 9H3M8 4L3 9l5 5') + A('M3 9h12M10 4l5 5-5 5');    // left, right
+  return h('div',{class:'ruler-hint'},
+    h('div',{class:'rh-arrows', html:pair}),
+    h('span',{}, 'Drag the scale to choose your value'));
+}
+
 SCREENS['ob-weight'] = (p = {}) => {
   const fromSet = p.from === 'settings';
   const saved = Store.get('weight', {value:70, unit:'kg'});
@@ -176,7 +187,7 @@ SCREENS['ob-weight'] = (p = {}) => {
       h('p',{class:'h-sub'}, 'This helps us calibrate pose guidance.'),
       ruler.node,
       h('div',{style:{display:'grid',placeItems:'center',marginTop:'6px'}}, unit),
-      h('div',{class:'ruler-hint'}, '← Drag the scale to choose your value →'),
+      rulerHint('h'),
     ],
     footer: h('button',{class:'btn', onclick:()=>go(fromSet ? 'settings' : 'ob-height')}, fromSet ? 'Save' : 'Continue'),
   });
@@ -204,7 +215,7 @@ SCREENS['ob-height'] = (p = {}) => {
       h('div',{style:{display:'flex',gap:'8px',alignItems:'stretch',margin:'6px 0'}},
         ruler.node,
         h('div',{class:'height-side'}, bigVal, unit)),
-      h('div',{class:'ruler-hint'}, '↑   ↓  Drag the scale to choose your value'),
+      rulerHint('v'),
     ],
     footer: h('button',{class:'btn', onclick:()=>go(fromSet ? 'settings' : 'ob-level')}, fromSet ? 'Save' : 'Continue'),
   });
@@ -237,14 +248,19 @@ SCREENS['ob-level'] = (p = {}) => {
     render:(it,on)=> h('div',{class:'opt'+(on?' sel':'')},
       h('img',{class:'opt-img',src:DATA.poseImg(G(),it.img)}),
       h('div',{class:'opt-body'}, h('div',{class:'opt-title'},it.title), h('div',{class:'opt-desc'},it.desc))) });
+  // from = 'customize' (home > Customize Plan): level -> body-part focus -> back to home
+  const custom = p.from === 'customize';
   return frame({
-    top:  fromSet ? topBar({ back:()=>go('settings'), title:'Yoga Level' }) : null,
-    step: fromSet ? null : stepBar(42, ()=>go('ob-height')),
+    top:  fromSet ? topBar({ back:()=>go('settings'), title:'Yoga Level' })
+        : custom  ? topBar({ back:()=>go('home'), title:'Customize Plan' }) : null,
+    step: (fromSet || custom) ? null : stepBar(42, ()=>go('ob-height')),
     scroll:[ h('h1',{class:'h-title'}, 'Choose your current yoga level'),
       h('p',{class:'h-sub'}, 'Select one.'), s.wrap ],
     footer: h('button',{class:'btn', onclick:()=>{
       if(!s.get().length) return toast('Select your level');
-      Store.set('level', s.get()[0]); go(fromSet ? 'settings' : 'ob-goal');
+      Store.set('level', s.get()[0]);
+      if (custom) return go('ob-focus', { from:'customize' });
+      go(fromSet ? 'settings' : 'ob-goal');
     }}, fromSet ? 'Save' : 'Continue'),
   });
 };
@@ -271,7 +287,8 @@ SCREENS['ob-goal'] = (p = {}) => {
   });
 };
 
-SCREENS['ob-focus'] = () => {
+SCREENS['ob-focus'] = (p0 = {}) => {
+  const custom = p0.from === 'customize';        // home > Customize Plan flow
   const chosen = new Set(Store.get('focus',[]));
   // chip position around the Tree-Pose figure (Figma 296:4405) + the body-highlight
   // blob it lights up on hover / when selected (cx/cy/rx/ry are % of the figure box)
@@ -325,16 +342,19 @@ SCREENS['ob-focus'] = () => {
   repaint();
 
   return frame({
-    step: stepBar(58, ()=>go('ob-goal')),
+    top:  custom ? topBar({ back:()=>go('ob-level',{from:'customize'}), title:'Customize Plan' }) : null,
+    step: custom ? null : stepBar(58, ()=>go('ob-goal')),
     scroll:[
       h('h1',{class:'h-title'}, 'Which areas do you want to focus on?'),
-      h('p',{class:'h-sub'}, 'Hover a card to see the area on the body, then pick two.'),
+      h('p',{class:'h-sub'}, 'Tap or hover a card to preview, then pick two.'),
       h('div',{class:'focus-wrap '+G()}, fig, ...chips),
     ],
     footer: h('button',{class:'btn', onclick:()=>{
       if (chosen.size !== 2) return toast('Pick exactly two areas');
-      Store.set('focus',[...chosen]); go('ob-activity');
-    }}, 'Continue'),
+      Store.set('focus',[...chosen]);
+      if (custom){ toast('Plan updated'); return go('home'); }
+      go('ob-activity');
+    }}, custom ? 'Save' : 'Continue'),
   });
 };
 
@@ -570,6 +590,7 @@ function medCards(list){
 const MUSIC_SVG = '<svg viewBox="0 0 24 24" fill="#144B70" xmlns="http://www.w3.org/2000/svg"><path d="M20.074 0.896C20.707 0.817 21.411 1.225 21.643 1.824c.065.169.097.466.098.65.009.953.001 1.907 0 2.861l-.003 5.692-.005 4.023c.001.74.03 1.531-.013 2.264-.09 1.55-1.293 2.834-2.693 3.358-1.886.705-4.076-.159-4.768-2.083-.351-.966-.299-2.032.146-2.958.977-2.062 3.488-3.037 5.564-2.048.026-.786.008-1.652.007-2.445l-.001-4.009c-.336.113-.57.154-.905.239l-1.893.47-5.358 1.387c-.56.146-1.164.278-1.713.428-.226.073-.482.109-.706.197-.077.023-.102.096-.108.171-.02.249-.011.512-.009.762l.001 1.282.005 4.489c.003.817.056 1.742-.009 2.546-.116 1.425-1.148 2.659-2.411 3.216-3.13 1.383-6.285-1.39-5.06-4.675.385-1.055 1.179-1.91 2.202-2.372.166-.075.63-.268.804-.302.642-.126 1.339-.134 1.978.018.128.031.579.22.727.276-.018-2.04.009-4.132.008-6.179l-.001-2.007c0-.328-.014-.899.027-1.206.053-.415.205-.812.444-1.156.77-1.109 2.272-1.331 3.509-1.635l3.039-.768 3.956-1.01c.449-.113 1.15-.326 1.571-.402ZM9.368 8.153c.213-.061.39-.084.593-.137l2.085-.537 5.355-1.388c.652-.173 1.319-.32 1.968-.501.185-.052.436-.086.609-.15l-.001-1.898c.001-.2.017-.729-.011-.89-.047-.039-.046-.026-.119-.024-1.015.281-1.981.515-2.996.774l-4.401 1.145-1.749.446c-.494.13-.979.171-1.258.659-.074.131-.123.275-.143.425-.034.244-.011.849-.014 1.128-.002.213-.012.734.005.919l.029.043.048-.012ZM5.264 21.092c.765-.1 1.35-.339 1.848-.95.76-.934.796-2.519-.204-3.297-.319-.248-.849-.408-1.251-.384-2.999.241-3.343 4.581-.393 4.631ZM17.715 19.31c.846-.093 1.291-.293 1.862-.964.39-.458.591-1.223.525-1.817-.055-.529-.319-1.014-.733-1.347-.356-.284-.833-.42-1.285-.407-.736.069-1.329.37-1.803.941-.427.506-.631 1.163-.566 1.822.048.517.346 1.035.746 1.364.367.302.785.385 1.253.408Z"/></svg>';
 
 SCREENS.home = () => {
+  const greetName = String(Store.get('name','') || '').trim().split(/\s+/)[0];   // first name in the greeting
   const lvl = (DATA.levels.find(l=>l.id===Store.get('level'))||{title:'Beginner'}).title;
 
   const planCard = h('div',{class:'plan-card'},
@@ -580,19 +601,19 @@ SCREENS.home = () => {
         h('div',{class:'plan-row'}, h('img',{src:IMG+'plan_lvl.svg'}),
           h('div',{class:'tx'}, h('b',{}, lvl), h('span',{}, 'Level'))),
         h('div',{class:'plan-row'}, h('img',{src:IMG+'plan_pose.svg'}),
-          h('div',{class:'tx'}, h('b',{}, '6'), h('span',{}, 'Poses')))),
+          h('div',{class:'tx'}, h('b',{}, String(1 + DATA.morePoses.length)), h('span',{}, 'Poses')))),
       h('img',{class:'fig', src:pimg('lotus')})),
     h('button',{class:'btn', onclick:()=>go('session-overview')}, 'Session Overview'));
 
   return frame({
     status:true,
     top: h('div',{class:'home-hi'},
-      h('div',{class:'greet'}, h('h1',{}, 'Hello,'), h('p',{}, 'Ready to move, breathe & feel better')),
+      h('div',{class:'greet'}, h('h1',{}, greetName ? 'Hello, ' + greetName : 'Hello,'), h('p',{}, 'Ready to move, breathe & feel better')),
       h('button',{class:'av', 'aria-label':'Select music', onclick:()=>go('music'), html:MUSIC_SVG})),
     scroll:[
       h('div',{class:'your-plan'}, 'YOUR YOGA PLAN'),
       planCard,
-      h('div',{class:'feat-card', onclick:()=>go('plan')},
+      h('div',{class:'feat-card', onclick:()=>go('ob-level',{from:'customize'})},
         h('div',{class:'txt'}, h('b',{}, 'Customize Plan'), h('p',{}, 'Choose your level, time, Goals')),
         h('img',{src:IMG+'il_customize.png'})),
       h('div',{class:'feat-card', onclick:()=>go('plan')},
@@ -1062,9 +1083,8 @@ SCREENS.music = () => {
     showChanting:false,
   });
   const root = frame({
-    top: topBar({ back:()=>{ Ambience.stop(); go('home'); }, title:'Select Music' }),
+    top: topBar({ back:()=>{ Ambience.stop(); go('home'); }, title:'Select Music', sub:'Pick a track for practice and meditation' }),
     scroll:[
-      h('p',{class:'h-sub', style:{marginTop:'6px'}}, 'Pick a background track for your practice and meditation.'),
       picker,
     ],
     footer: h('button',{class:'btn cta', onclick:()=>{ Ambience.stop(); go('home'); }}, 'Save'),
@@ -1085,9 +1105,8 @@ SCREENS['med-setup'] = () => {
   });
 
   const root = frame({
-    top: topBar({ back:()=>{ Ambience.stop(); go('home'); }, title:'Meditation' }),
+    top: topBar({ back:()=>{ Ambience.stop(); go('home'); }, title:'Meditation', sub:'Choose your time and background track' }),
     scroll:[
-      h('p',{class:'med-sub'}, 'Choose your time and background track.'),
       h('div',{class:'stopwatch'}, h('img',{src:IMG+'ic_stopwatch.svg'}), tt),
       h('div',{class:'med-adjust'},
         h('button',{class:'round-btn', onclick:()=>{ mins=Math.max(1,mins-1); fmt(); }}, '−'),
@@ -1395,7 +1414,7 @@ SCREENS.progress = () => {
         h('span',{}, h('i',{style:{background:'#9E2A2B'}}), 'Skip'),
         h('span',{}, h('i',{style:{background:'var(--navy)'}}), 'Practiced'),
         h('span',{}, h('i',{style:{background:'#B7C0C6'}}), 'Rest Day')),
-      lineChart([12,0,0,20,0,0,0], ['p','r','r','p','r','r','r']),
+      lineChart([20,32,0,40,26,0,24], ['p','p','s','p','p','r','p']),   // Figma week: Wed = skipped (red), Sat = rest (grey)
       h('div',{class:'your-plan'}, 'Most Improved Pose'),
       poseCards(POSE_PROGRESS.slice().sort((a,b)=>b.pct-a.pct)),
       h('div',{class:'your-plan'}, 'Most Practiced Meditation'),
@@ -1476,12 +1495,31 @@ SCREENS.settings = () => {
       h('div',{class:'section-title'}, 'App'),
       row('Connect to Big Screen', '', 'connect'),
       row('Notifications', Store.get('remindOn')?'On':'Off'),
-      row('About Sadhana', 'v1.0'),
+      row('About Sadhana', 'v1.0', 'about'),
       h('button',{class:'btn ghost', style:{marginTop:'18px'}, onclick:()=>{ Store.reset(); go('signup'); }}, 'Reset demo'),
     ],
     tab:'Settings',
   });
 };
+/* About Sadhana - what the app is + future scope */
+SCREENS.about = () => frame({
+  top: topBar({ back:()=>go('settings'), title:'About Sadhana' }),
+  scroll:[
+    h('div',{class:'about-logo'}, h('img',{src:IMG+'logo.svg', alt:''}), h('span',{}, 'Sadhana')),
+    h('p',{class:'about-p'}, 'Sadhana is a personalized yoga and wellness app designed to help people practice yoga, track their poses, and build a consistent routine at home.'),
+    h('p',{class:'about-p'}, 'Instead of following a one-size-fits-all routine, Sadhana adapts the practice to individual needs while using real-time pose tracking to guide posture and movement.'),
+    h('p',{class:'about-p'}, 'Users can also connect Sadhana to a bigger screen for a more immersive practice experience, while the app provides personalized feedback and tracks their progress.'),
+    h('p',{class:'about-p'}, 'Along with yoga, Sadhana integrates meditation and mindfulness to support overall well-being.'),
+    h('p',{class:'about-p'}, 'The project focuses on making home yoga more personalized, guided, accessible, and engaging.'),
+    h('div',{class:'section-title'}, 'Future scope'),
+    h('ul',{class:'about-list'},
+      h('li',{}, 'More yoga poses with AI pose tracking'),
+      h('li',{}, 'More specific information about each pose in the progress cards'),
+      h('li',{}, 'Breathing tracking')),
+    h('p',{class:'about-ver'}, 'Sadhana v1.0'),
+  ],
+  tab:'Settings',
+});
 function ftin(cm){ const i=Math.round(cm/2.54); return `${Math.floor(i/12)}′${i%12}″`; }
 
 /* ============================================================= *

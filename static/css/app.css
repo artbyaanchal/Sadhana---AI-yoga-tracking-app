@@ -35,7 +35,7 @@ html,body{height:100%}
 body,h1,h2,h3,h4,p,span,b,div,button,label{user-select:none;-webkit-user-select:none}
 input,textarea{user-select:text;-webkit-user-select:text;cursor:text}
 button,a,.opt,.goal,.chip,.gender,.day,.tab,.track-row,.dev-row .cbtn,.cal-cell,.tabswitch button,
-.seg button,.unit button,.round-btn,.feat-card,.card.tap,.btn-text,.pose-card,.icon-btn{cursor:pointer}
+.seg button,.unit button,.round-btn,.feat-card,.card.tap,.btn-text,.icon-btn{cursor:pointer}
 body{
   font-family:'Quicksand',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   color:var(--text);background:#0E1F2B;font-weight:500;
@@ -103,11 +103,13 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .statusbar svg{display:block}
 
 /* ---- top nav (back / title / action) ------------------------- */
-.topnav{position:relative;display:flex;align-items:center;gap:12px;
+.topnav{position:relative;display:flex;align-items:center;gap:16px;
   padding:10px var(--pad) 12px;flex:none}
 .topnav .icon-btn{flex:none}
 /* every screen's header sits left, same size - consistent across the app */
-.topnav h2{font-size:23px;font-weight:700;flex:1;color:var(--ink);letter-spacing:-.01em;text-align:left}
+.topnav h2{font-size:23px;line-height:29px;font-weight:700;flex:1;min-width:0;color:var(--ink);letter-spacing:-.01em;text-align:left;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}       /* one line always -> every header is the same height */
+.topnav h2.long{font-size:19px}
 .topnav .right{display:flex;gap:10px}
 .topnav + .scroll{padding-top:16px}
 
@@ -119,13 +121,16 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .icon-btn:active{transform:scale(.9)}
 
 /* ---- progress bar (onboarding) ------------------------------ */
-.stepbar{display:flex;align-items:center;gap:12px;padding:10px var(--pad) 34px;flex:none}
+.stepbar{display:flex;align-items:center;gap:12px;padding:10px var(--pad) 8px;flex:none}
 .stepbar .track{flex:1;height:12px;border-radius:99px;background:var(--track);overflow:hidden}
 .stepbar .fill{height:100%;border-radius:99px;background:var(--navy);transition:width .35s ease}
 
 /* ---- headings block ---------------------------------------- */
 .h-title{font-size:26px;font-weight:700;letter-spacing:-.005em;line-height:1.28;margin:12px 0 8px;color:var(--ink);text-decoration:none}
-.h-sub{font-size:13px;font-weight:600;color:var(--text);margin-bottom:20px}
+.h-sub{font-size:13px;line-height:16px;font-weight:600;color:var(--text);margin-bottom:20px}
+/* every onboarding / setup screen: the title always occupies a 2-line slot (bottom-aligned), so the
+   sub-heading and the content below start at the same height no matter how long the title is */
+.stepbar ~ .scroll > .h-title,.topnav ~ .scroll > .h-title{min-height:calc(2 * 1.28em);display:flex;align-items:flex-end;margin:8px 0 8px}
 .field-label{font-size:12px;letter-spacing:.14em;font-weight:700;color:var(--muted);
   text-transform:uppercase;margin:20px 0 8px}
 
@@ -275,8 +280,11 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .ruler-readout{display:flex;align-items:baseline;justify-content:center;gap:6px;margin:18px 0 4px}
 .ruler-readout .val{font-family:'Quicksand';font-weight:700;font-size:40px;color:var(--ink)}
 .ruler-readout .u{font-size:16px;color:var(--muted);font-weight:700}
-.ruler-hint{display:flex;gap:8px;align-items:center;justify-content:center;color:var(--muted);
-  font-size:12.5px;margin-top:12px}
+/* "Drag the scale..." hint - Figma 296:3989: two thin outline arrows centred above the line of text */
+.ruler-hint{display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:14px;
+  color:var(--text);font-size:13px;font-weight:500;text-align:center}
+.ruler-hint .rh-arrows{display:flex;gap:30px;line-height:0}
+.ruler-hint .rh-arrows svg{display:block}
 
 /* ---- height ruler - thin solid-blue bar + labels to right (Figma) -- */
 .ruler-v{position:relative;height:400px;width:150px;flex:none;margin:0;display:flex;justify-content:flex-start;
@@ -286,7 +294,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
   border:2px solid #7FB2D0;
   box-shadow:0 6px 14px rgba(22,50,74,.12), inset 2px 0 5px rgba(255,255,255,.6), inset -2px 0 6px rgba(20,75,112,.12);}
 .ruler-v .scale{position:absolute;left:0;right:0;top:0;display:flex;flex-direction:column;align-items:flex-start;will-change:transform;z-index:2}
-.ruler-v .tick{height:26px;flex:none;position:relative;display:flex;align-items:center;width:100%}
+.ruler-v .tick{height:40px;flex:none;position:relative;display:flex;align-items:center;width:100%}
 .ruler-v .tick i{position:absolute;left:56px;top:50%;transform:translateY(-50%);width:12px;height:1.5px;background:#8FB0CC;border-radius:2px}
 .ruler-v .tick b{position:absolute;left:78px;top:50%;transform:translateY(-50%);font-size:15px;font-weight:400;color:#8FB0CC;font-style:normal;white-space:nowrap;transition:.12s}
 .ruler-v .tick.cur b{font-size:20px;font-weight:700;color:var(--navy)}
@@ -419,10 +427,10 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .cal-cell:active{transform:scale(.86)}
 
 /* ---- home ---------------------------------------------- */
-.home-hi{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px var(--pad) 10px}
+.home-hi{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px var(--pad) 10px}
 .home-hi .greet{min-width:0}
-.home-hi h1{font-size:26px;font-weight:700;line-height:1.2}
-.home-hi p{color:var(--text);font-size:13px;margin-top:5px;font-weight:500}
+.home-hi h1{font-size:26px;font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home-hi p{color:var(--text);font-size:13px;margin-top:8px;font-weight:500}
 .home-hi .av{width:35px;height:35px;border-radius:999px;background:#CCDBE1;display:grid;place-items:center;flex:none}
 .home-hi .av svg{width:19px;height:19px}
 
@@ -592,7 +600,8 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 
 /* ---- meditation ------------------------------------ */
 .med-sub{text-align:left;color:var(--text);font-size:13px;font-weight:600;margin:4px 0 10px;line-height:1.4}
-.stopwatch{position:relative;width:212px;height:224px;margin:16px auto 0;display:grid;place-items:center}
+.stopwatch{position:relative;width:212px;height:224px;margin:16px auto 0;display:grid;place-items:center;
+  pointer-events:none}      /* the picture is decoration - it must never swallow taps meant for the -/+ buttons under it */
 .stopwatch img{width:100%;height:100%;object-fit:contain;display:block}
 /* the dial circle sits at y=118/248 ≈ 47.5% of the artwork - centre "10:00" there */
 .stopwatch .tt{position:absolute;left:50%;top:47.5%;transform:translate(-50%,-50%);text-align:center;
@@ -602,7 +611,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
   background:conic-gradient(var(--navy) var(--p,25%),#E4EEF3 0);position:relative}
 .med-timer::before{content:"";position:absolute;inset:14px;border-radius:50%;background:#fff}
 .med-timer .tt{position:relative;font-family:'Quicksand';font-weight:700;font-size:40px;color:var(--ink)}
-.med-adjust{display:flex;justify-content:space-between;align-items:center;margin:-14px auto 18px;width:236px}
+.med-adjust{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:center;margin:-14px auto 18px;width:236px}
 .round-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(28,107,148,.4);background:#D9ECF2;
   display:grid;place-items:center;color:#1C6B94;font-size:21px;font-family:'Quicksand';font-weight:700}
 .round-btn:active{transform:scale(.9)}
@@ -726,9 +735,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .hscroll::after{content:"";flex:none;width:calc(var(--pad) - 14px)}
 .pose-card{flex:none;width:138px;background:rgba(255,255,255,.5);border:2px solid #679BB5;border-radius:13px;
   padding:9px;display:flex;flex-direction:column;align-items:center;gap:7px;scroll-snap-align:start;
-  transition:opacity .2s,transform .14s,box-shadow .16s,border-color .16s}
-.pose-card:not(.inactive):hover{transform:translateY(-2px);border-color:#4C86A3;
-  box-shadow:0 10px 20px rgba(28,107,148,.16)}
+  transition:opacity .2s}
 .pose-card.inactive{opacity:.55;filter:grayscale(.35)}
 .pose-card.inactive .pbar i{background:#9FB2BC}
 .pose-card.inactive .pct{color:#8A97A0}
@@ -779,12 +786,14 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .social button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-weight:700}
 .divider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12px;margin:18px 0}
 .divider::before,.divider::after{content:"";flex:1;height:1px;background:#E6EBED}
-.gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:10px 0}
+.gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:26px 0 10px}
 .gender{border:1.5px solid #679BB5;border-radius:16px;overflow:hidden;background:#fff;transition:.15s;position:relative;display:flex;flex-direction:column}
 .gender:active{transform:scale(.97)}
 .gender.sel{border-color:var(--navy);border-width:2px;box-shadow:0 0 0 4px rgba(20,75,112,.12)}
-.gender .pic{height:230px;display:grid;place-items:center;overflow:hidden;border-bottom:1.5px solid #679BB5;padding:6px 4px 0}
-.gender .pic img{max-height:224px;max-width:100%;width:auto;object-fit:contain}
+/* Figma 296:3887 / 296:3901 - the art fills the card width and sits low, mat ~24px above the label */
+.gender .pic{height:222px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;
+  border-bottom:1.5px solid #679BB5;padding:0 5px 24px}
+.gender .pic img{width:100%;max-height:100%;height:auto;object-fit:contain}
 .gender b{display:block;text-align:center;padding:13px;font-family:'Quicksand';font-weight:700;color:var(--ink);font-size:16px}
 .toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);background:var(--ink);color:#fff;
   padding:12px 20px;border-radius:99px;font-size:13px;z-index:200;box-shadow:var(--shadow);animation:pop .25s ease}
@@ -804,3 +813,36 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 #splash .sp-name{font-family:'Quicksand','Poppins',sans-serif;font-weight:500;
   font-size:24px;letter-spacing:.14em;color:#fff}
 @keyframes sp-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ---- About Sadhana ---- */
+.about-p{font-size:14px;line-height:1.65;color:var(--text);font-weight:500;margin:0 0 12px}
+.about-list{margin:0 0 0 18px;display:flex;flex-direction:column;gap:9px;font-size:14px;line-height:1.5;color:var(--text)}
+.about-ver{margin-top:22px;font-size:12px;color:var(--muted);text-align:center}
+
+/* ---- real phone browser: fill the phone's own screen ------------------------------
+   html.native is set in index.html when the page is opened on an actual phone (not in the
+   /present demo frame). The device already has its own status bar / notch / home bar, so we
+   drop our drawn ones and use the real viewport + safe-area insets instead of a fixed
+   393x852 frame. The desktop / demo view is unchanged. */
+html.native{--safe-bottom:max(env(safe-area-inset-bottom,0px),12px)}
+html.native,html.native body{width:100%;height:100%;background:var(--bg);display:block}
+html.native .phone{width:100%;max-width:none;height:100vh;height:100dvh;max-height:none;border-radius:0;box-shadow:none}
+html.native .phone::after{display:none}
+html.native .statusbar{min-height:0;height:max(var(--safe-top),12px);padding:0}
+html.native .statusbar > *{display:none}
+
+/* header sub-heading (Meditation, Select Music): part of the fixed top bar, so it never scrolls away;
+   the back arrow is vertically centred on the title + sub-heading block (align-items:center) */
+.topnav .tn-text{flex:1;min-width:0}
+.topnav .tn-sub{margin-top:8px;font-size:13px;line-height:16px;font-weight:600;color:var(--text);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topnav.has-sub{padding-bottom:0}
+.topnav.has-sub + .scroll{padding-top:24px}          /* 24px between the header sub-text and the first content - same as the Home greeting */
+.topnav.has-sub + .scroll > :first-child{margin-top:0}
+.topnav.has-sub + .scroll > .sound-picker:first-child .seg-tabs{margin-top:0}   /* Select Music: the tab row's own 2px would otherwise add to the gap */
+
+/* brand tile at the top of About Sadhana (logo from Figma 781:2035) */
+.about-logo{width:156px;margin:6px auto 22px;padding:22px 0 18px;border-radius:20px;background:#144B70;
+  display:flex;flex-direction:column;align-items:center;gap:12px}
+.about-logo img{width:30px;height:49px;display:block}
+.about-logo span{font-family:'Quicksand',sans-serif;font-weight:500;font-size:20px;letter-spacing:.14em;color:#fff}
