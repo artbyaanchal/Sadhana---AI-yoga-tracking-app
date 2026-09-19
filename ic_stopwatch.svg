@@ -1,0 +1,70 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="220" height="248" viewBox="0 0 220 248" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Stopwatch">
+<path id="Vector" d="M118 4H102C99.7909 4 98 5.79086 98 8V16C98 18.2091 99.7909 20 102 20H118C120.209 20 122 18.2091 122 16V8C122 5.79086 120.209 4 118 4Z" fill="#2E84B8"/>
+<path id="Vector_2" d="M110 27C114.971 27 119 22.9706 119 18C119 13.0294 114.971 9 110 9C105.029 9 101 13.0294 101 18C101 22.9706 105.029 27 110 27Z" fill="#1D6FA5"/>
+<path id="Vector_3" d="M164 40C169.523 40 174 35.5228 174 30C174 24.4772 169.523 20 164 20C158.477 20 154 24.4772 154 30C154 35.5228 158.477 40 164 40Z" fill="#7FBFE3"/>
+<path id="Vector_4" d="M171.071 28.5858L165.414 22.9289C164.633 22.1479 163.367 22.1479 162.586 22.9289C161.805 23.71 161.805 24.9763 162.586 25.7574L168.243 31.4142C169.024 32.1953 170.29 32.1953 171.071 31.4142C171.852 30.6332 171.852 29.3668 171.071 28.5858Z" fill="#7FBFE3"/>
+<path id="Vector_5" d="M110 210C160.81 210 202 168.81 202 118C202 67.1898 160.81 26 110 26C59.1898 26 18 67.1898 18 118C18 168.81 59.1898 210 110 210Z" fill="white" stroke="#2E84B8" stroke-width="6"/>
+<path id="Vector_6" d="M110 196C153.078 196 188 161.078 188 118C188 74.9218 153.078 40 110 40C66.9218 40 32 74.9218 32 118C32 161.078 66.9218 196 110 196Z" fill="#EAF4FB"/>
+<path id="Vector_7" d="M110 52V42" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_8" d="M117.5 46.4L117.9 42.4" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_9" d="M125 47.6L125.8 43.7" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_10" d="M132.2 49.5L133.5 45.7" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_11" d="M139.3 52.2L140.9 48.6" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_12" d="M143 60.8L148 52.2" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_13" d="M152.3 59.8L154.7 56.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_14" d="M158.2 64.5L160.9 61.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_15" d="M163.5 69.8L166.5 67.1" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_16" d="M168.2 75.7L171.5 73.3" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_17" d="M167.2 85L175.8 80" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_18" d="M175.8 88.7L179.4 87.1" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_19" d="M178.5 95.8L182.3 94.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_20" d="M180.4 103L184.3 102.2" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_21" d="M181.6 110.5L185.6 110.1" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_22" d="M176 118H186" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_23" d="M181.6 125.5L185.6 125.9" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_24" d="M180.4 133L184.3 133.8" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_25" d="M178.5 140.2L182.3 141.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_26" d="M175.8 147.3L179.4 148.9" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_27" d="M167.2 151L175.8 156" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_28" d="M168.2 160.3L171.5 162.7" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_29" d="M163.5 166.2L166.5 168.9" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_30" d="M158.2 171.5L160.9 174.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_31" d="M152.3 176.2L154.7 179.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_32" d="M143 175.2L148 183.8" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_33" d="M139.3 183.8L140.9 187.4" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_34" d="M132.2 186.5L133.5 190.3" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_35" d="M125 188.4L125.8 192.3" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_36" d="M117.5 189.6L117.9 193.6" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_37" d="M110 184V194" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_38" d="M102.5 189.6L102.1 193.6" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_39" d="M95 188.4L94.2 192.3" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_40" d="M87.8 186.5L86.5 190.3" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_41" d="M80.7 183.8L79.1 187.4" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_42" d="M77 175.2L72 183.8" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_43" d="M67.7 176.2L65.3 179.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_44" d="M61.8 171.5L59.1 174.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_45" d="M56.5 166.2L53.5 168.9" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_46" d="M51.8 160.3L48.5 162.7" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_47" d="M52.8 151L44.2 156" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_48" d="M44.2 147.3L40.6 148.9" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_49" d="M41.5 140.2L37.7 141.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_50" d="M39.6 133L35.7 133.8" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_51" d="M38.4 125.5L34.4 125.9" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_52" d="M44 118H34" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_53" d="M38.4 110.5L34.4 110.1" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_54" d="M39.6 103L35.7 102.2" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_55" d="M41.5 95.8L37.7 94.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_56" d="M44.2 88.7L40.6 87.1" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_57" d="M52.8 85L44.2 80" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_58" d="M51.8 75.7L48.5 73.3" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_59" d="M56.5 69.8L53.5 67.1" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_60" d="M61.8 64.5L59.1 61.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_61" d="M67.7 59.8L65.3 56.5" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_62" d="M77 60.8L72 52.2" stroke="#2E84B8" stroke-width="2.5" stroke-linecap="round"/>
+<path id="Vector_63" d="M80.7 52.2L79.1 48.6" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_64" d="M87.8 49.5L86.5 45.7" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_65" d="M95 47.6L94.2 43.7" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_66" d="M102.5 46.4L102.1 42.4" stroke="#AED7EF" stroke-width="1.5" stroke-linecap="round"/>
+</g>
+</svg>
