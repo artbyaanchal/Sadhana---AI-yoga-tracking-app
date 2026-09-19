@@ -91,7 +91,7 @@ input,select,textarea{font:inherit;color:var(--ink)}
   min-height:44px;
   padding:calc(var(--safe-top) + 15px) 20px 7px;
   display:flex;align-items:center;justify-content:space-between;
-  font-family:'Poppins','Quicksand',system-ui,sans-serif;
+  font-family:'Quicksand',system-ui,sans-serif;
   font-size:16px;font-weight:600;color:var(--ink);
 }
 .statusbar .sb-time{letter-spacing:.02em;font-variant-numeric:tabular-nums;padding-left:4px}
@@ -331,7 +331,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .card.tap{transition:transform .12s,box-shadow .15s,border .15s}
 .card.tap:hover{border-color:var(--line-strong);box-shadow:var(--shadow);transform:translateY(-2px)}
 .card.tap:active{transform:scale(.985)}
-.section-title{font-family:'Poppins';font-weight:600;font-size:13px;letter-spacing:.14em;
+.section-title{font-family:'Quicksand';font-weight:600;font-size:13px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--muted);margin:22px 2px 12px}
 
 /* ---- session overview (Figma 440:6121) -------------------- */
@@ -356,11 +356,11 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 /* ---- guided chanting session ------------------------------- */
 .chant-phrase{text-align:center;font-family:'Quicksand';font-weight:700;font-size:19px;
   color:var(--navy);margin-top:6px;min-height:26px}
-.chant-time{text-align:center;font-family:'Poppins';font-weight:700;color:var(--navy);font-size:34px;margin-top:14px;letter-spacing:.04em}
+.chant-time{text-align:center;font-family:'Quicksand';font-weight:700;color:var(--navy);font-size:34px;margin-top:14px;letter-spacing:.04em}
 
 /* ---- meditation session: big clock, vertically centred ------ */
 .med-clock-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:0}
-.med-clock{font-family:'Poppins';font-weight:700;font-size:64px;letter-spacing:.06em;
+.med-clock{font-family:'Quicksand';font-weight:700;font-size:64px;letter-spacing:.06em;
   color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.35)}
 /* live pitch meter while chanting - a bar with a moving marker + target tick */
 .pitch-meter{width:min(78%,300px);display:flex;flex-direction:column;align-items:center;gap:7px}
@@ -404,7 +404,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .wu-ring circle{fill:none;stroke-width:6}
 .wu-ring circle.trk{stroke:#DCE9EE}
 .wu-ring circle.val{stroke:var(--navy);stroke-linecap:round;transition:stroke-dashoffset 1s linear}
-.wu-ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:'Poppins';
+.wu-ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:'Quicksand';
   font-weight:700;color:var(--navy);font-size:16px}
 
 /* days selector */
@@ -417,7 +417,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 
 /* calendar */
 .cal{border:1.4px solid var(--line);border-radius:var(--radius);padding:14px;margin-top:12px}
-.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-family:'Poppins';font-weight:600;color:var(--ink)}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-family:'Quicksand';font-weight:600;color:var(--ink)}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
 .cal-grid .dow{font-size:11px;color:var(--muted);padding:4px 0;font-weight:600}
 .cal-cell{aspect-ratio:1;display:grid;place-items:center;border-radius:50%;font-size:13px;color:var(--text);transition:.12s}
@@ -524,10 +524,10 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .ai-banner img{width:34px;height:34px;object-fit:contain}
 .ai-banner .t{flex:1;font-size:12.5px;color:var(--text);line-height:1.4}
 .ai-banner .cd{width:44px;height:44px;border-radius:50%;border:2px solid var(--navy);display:grid;place-items:center;
-  font-family:'Poppins';font-weight:700;color:var(--navy)}
+  font-family:'Quicksand';font-weight:700;color:var(--navy)}
 
 .countdown-full{position:absolute;inset:0;background:rgba(255,255,255,.96);display:grid;place-items:center;z-index:30}
-.countdown-full .n{font-family:'Poppins';font-weight:700;font-size:120px;color:var(--navy);animation:pop .9s ease}
+.countdown-full .n{font-family:'Quicksand';font-weight:700;font-size:120px;color:var(--navy);animation:pop .9s ease}
 @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
 
 /* ---- pose tracker --------------------------------- */
@@ -538,7 +538,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
   padding:calc(14px + var(--safe-top)) 16px calc(16px + var(--safe-bottom))}
 .tracker .hud-top{display:flex;justify-content:space-between;align-items:flex-start}
 .tracker .score{background:rgba(11,22,34,.55);backdrop-filter:blur(6px);border-radius:18px;padding:12px 16px;text-align:center;min-width:104px}
-.tracker .score b{font-family:'Poppins';font-size:34px;display:block;line-height:1}
+.tracker .score b{font-family:'Quicksand';font-size:34px;display:block;line-height:1}
 .tracker .score span{font-size:11px;opacity:.85}
 .tracker .status{margin-top:10px;align-self:center;background:rgba(11,22,34,.5);border-radius:99px;padding:7px 16px;font-size:13px;font-weight:600;transition:background .2s}
 .tracker .status.danger{background:#D6584B;color:#fff}
@@ -605,7 +605,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .stopwatch img{width:100%;height:100%;object-fit:contain;display:block}
 /* the dial circle sits at y=118/248 ≈ 47.5% of the artwork - centre "10:00" there */
 .stopwatch .tt{position:absolute;left:50%;top:47.5%;transform:translate(-50%,-50%);text-align:center;
-  font-family:'Poppins','Quicksand';font-weight:700;font-size:32px;color:#144B70;letter-spacing:.02em;
+  font-family:'Quicksand';font-weight:700;font-size:32px;color:#144B70;letter-spacing:.02em;
   width:100%;pointer-events:none}
 .med-timer{width:210px;height:210px;border-radius:50%;margin:16px auto;display:grid;place-items:center;
   background:conic-gradient(var(--navy) var(--p,25%),#E4EEF3 0);position:relative}
@@ -681,9 +681,9 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 
 /* ---- settings ------------------------------------- */
 .acct{display:flex;align-items:center;gap:14px;border:1.4px solid var(--line);border-radius:18px;padding:14px}
-.acct .av{width:52px;height:52px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:'Poppins';font-weight:700;font-size:20px}
+.acct .av{width:52px;height:52px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:'Quicksand';font-weight:700;font-size:20px}
 .acct .ai{flex:1}
-.acct .ai b{font-family:'Poppins';font-weight:600;color:var(--ink)}
+.acct .ai b{font-family:'Quicksand';font-weight:600;color:var(--ink)}
 .acct .ai span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
 .srow{display:flex;align-items:center;gap:12px;border:1.4px solid var(--line);border-radius:14px;padding:15px 16px;margin-top:10px;transition:.15s}
 .srow:hover{border-color:var(--line-strong)}
@@ -715,7 +715,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .dev-row{display:flex;align-items:center;gap:12px;border:1.4px solid var(--line);border-radius:16px;padding:14px;margin-top:12px}
 .dev-row .di{width:40px;height:40px;border-radius:10px;background:#E8F1F5;display:grid;place-items:center}
 .dev-row .db{flex:1}
-.dev-row .db b{display:block;font-family:'Poppins';font-weight:600;color:var(--ink);font-size:14px}
+.dev-row .db b{display:block;font-family:'Quicksand';font-weight:600;color:var(--ink);font-size:14px}
 .dev-row .db span{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
 .dev-row .cbtn{padding:8px 16px;border-radius:99px;background:var(--navy);color:#fff;font-size:12px;font-weight:600}
 .dev-row .cbtn.done{background:var(--good)}
@@ -764,7 +764,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .ring-stat .rs p{color:#2c3b47;font-size:11.5px;line-height:1.45}
 .stat3{display:flex;gap:10px;margin-top:12px}
 .stat3 .s{flex:1;border:1.4px solid var(--line);border-radius:14px;padding:12px;text-align:center}
-.stat3 .s b{display:block;font-family:'Poppins';font-weight:700;font-size:18px;color:var(--ink)}
+.stat3 .s b{display:block;font-family:'Quicksand';font-weight:700;font-size:18px;color:var(--ink)}
 .stat3 .s span{font-size:10.5px;color:var(--muted)}
 .linechart{width:100%;height:auto;display:block}
 
@@ -810,7 +810,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 #splash .sp-in{display:flex;flex-direction:column;align-items:center;gap:14px;
   animation:sp-rise .7s cubic-bezier(.2,.7,.3,1) both}
 #splash .sp-logo{width:46px;height:auto;display:block}
-#splash .sp-name{font-family:'Quicksand','Poppins',sans-serif;font-weight:500;
+#splash .sp-name{font-family:'Quicksand',sans-serif;font-weight:500;
   font-size:24px;letter-spacing:.14em;color:#fff}
 @keyframes sp-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 

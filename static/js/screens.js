@@ -428,7 +428,7 @@ function planScreen({ standalone=false, from=null } = {}){
   function drawRem(){
     remCard.replaceChildren(
       h('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center'}},
-        h('div',{}, h('b',{style:{fontFamily:'Poppins',color:'var(--ink)'}}, 'Reminder Time'),
+        h('div',{}, h('b',{style:{fontFamily:'Quicksand',color:'var(--ink)'}}, 'Reminder Time'),
           h('div',{style:{color:'var(--muted)',fontSize:'13px',marginTop:'4px'}},
             reminder ? reminder.label : '--:-- --')),
         h('span',{class:'icon-btn', html:ICONS.chevron})));
