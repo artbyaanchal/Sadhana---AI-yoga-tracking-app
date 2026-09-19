@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sadhana - Phone &amp; TV</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:#EDF2F4;font-family:'Quicksand',system-ui,sans-serif;color:#16232C;overflow:hidden}
+  #page{height:100vh;display:flex;gap:4vw;align-items:center;justify-content:center;padding:20px;transition:gap .3s}
+  .col{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .label{font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:#8CA3B0}
+
+  /* ---- TV (Big Screen) - animation only; hidden until "Connect to Screen" ---- */
+  #tvCol{display:none}
+  #tvCol.show{display:flex;animation:tvin .38s ease}
+  @keyframes tvin{from{opacity:0;transform:translateX(30px) scale(.96)}to{opacity:1;transform:none}}
+  .tv-wrap{aspect-ratio:16/9;background:#fff;border:6px solid #14181c;border-radius:16px;
+    position:relative;overflow:hidden;box-shadow:0 22px 56px rgba(15,40,60,.22)}
+  .tv{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4%;padding:3.5% 4.5%}
+  .brow{display:flex;align-items:center;gap:14px}
+  .ring{width:40px;aspect-ratio:1;border-radius:50%;border:4px solid rgba(28,107,148,.35);display:grid;place-items:center}
+  .ring::after{content:"";width:48%;height:48%;border-radius:50%;border:4px solid #144B70;
+    transform:scale(.55);animation:tvbreathe 12s ease-in-out infinite}
+  .tv.paused .ring::after{animation-play-state:paused}
+  /* when a real breath phase is being pushed, the ring follows it instead of the ambient loop */
+  .tv.br-in .ring::after,.tv.br-hold .ring::after,.tv.br-out .ring::after{animation:none;transition:transform 3.4s ease-in-out}
+  .tv.br-in .ring::after{transform:scale(1)}
+  .tv.br-hold .ring::after{transform:scale(1);transition:transform .3s}
+  .tv.br-out .ring::after{transform:scale(.5)}
+  @keyframes tvbreathe{0%{transform:scale(.55)}30%{transform:scale(1)}55%{transform:scale(1)}100%{transform:scale(.55)}}
+  .phase{font-weight:700;letter-spacing:.13em;text-transform:uppercase;font-size:18px;color:#717171}
+  .fig{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;width:100%;overflow:hidden}
+  .fig video{max-height:100%;max-width:97%;width:auto;height:auto;object-fit:contain;background:#fff}
+  .name{font-weight:700;font-size:27px;color:#16232C;text-align:center;flex:none}
+  .tvmeta{flex:none;display:flex;flex-direction:column;align-items:center;gap:9px;width:60%}
+  .tvmeta .cd{font-family:'Quicksand';font-weight:700;font-size:19px;color:#144B70}
+  .tvmeta .bar{width:100%;height:9px;border-radius:99px;background:#E4EEF3;overflow:hidden}
+  .tvmeta .bar i{display:block;height:100%;background:#144B70;width:0%;transition:width .5s linear}
+  .idle{display:flex;flex-direction:column;align-items:center;gap:14px;color:#8AA3B0;text-align:center;padding:0 8%}
+  .idle h1{font-size:22px;color:#16232C;font-weight:700}.idle p{font-size:13.5px}
+
+  /* ---- iPhone 16 Pro - native 393x852 screen, SVG frame ---- */
+  .phone-stage{display:flex;align-items:center;justify-content:center}
+  .iphone{position:relative;width:432px;height:882px;flex:none;transform-origin:center}
+  .iphone .scr{position:absolute;left:19.5px;top:15px;width:393px;height:852px;
+    border-radius:52px;overflow:hidden;background:#fff;z-index:1}
+  .iphone .scr iframe{width:393px;height:852px;border:0;display:block;background:#fff}
+  .iphone .frame{position:absolute;inset:0;z-index:2;pointer-events:none}
+
+  .hint{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);font-size:12px;color:#9BB0BC;
+    background:#fff;padding:7px 16px;border-radius:99px;box-shadow:0 6px 18px rgba(15,40,60,.12)}
+  #tvCol.show ~ .hint{display:none}
+
+  @media (max-width:820px){ #page{flex-direction:column;gap:16px;padding:12px;overflow:auto;height:auto;min-height:100vh} }
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div id="page">
+  <div class="col" id="tvCol">
+    <div class="label">TV - Big Screen</div>
+    <div class="tv-wrap" id="tvWrap">
+      <div class="tv" id="tv">
+        <div class="idle" id="idleView"><h1>Connected</h1><p>Start the session on the phone - it plays here.</p></div>
+        <div class="brow" id="brow" hidden><span class="ring"></span><span class="phase" id="phase">BREATHE IN</span></div>
+        <div class="fig" id="figBox" hidden><video id="vid" muted loop playsinline></video></div>
+        <div class="name" id="name" hidden></div>
+        <div class="tvmeta" id="meta" hidden>
+          <div class="cd" id="cd"></div>
+          <div class="bar"><i id="barI"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="label">iPhone 16 Pro - AI Tracking</div>
+    <div class="phone-stage" id="stage">
+      <div class="iphone" id="iphone">
+        <div class="scr"><iframe src="/?tv=1" title="Sadhana" allow="camera; microphone"></iframe></div>
+        <svg class="frame" viewBox="0 0 432 882" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#5a5e64"/><stop offset=".16" stop-color="#26292d"/>
+              <stop offset=".5" stop-color="#0d0e10"/><stop offset=".84" stop-color="#26292d"/>
+              <stop offset="1" stop-color="#4a4d52"/>
+            </linearGradient>
+          </defs>
+          <path fill-rule="evenodd" fill="url(#rim)" d="
+            M71,1 H361 A70,70 0 0 1 431,71 V811 A70,70 0 0 1 361,881 H71 A70,70 0 0 1 1,811 V71 A70,70 0 0 1 71,1 Z
+            M71.5,15 H360.5 A52,52 0 0 1 412.5,67 V815 A52,52 0 0 1 360.5,867 H71.5 A52,52 0 0 1 19.5,815 V67 A52,52 0 0 1 71.5,15 Z"/>
+          <path fill-rule="evenodd" fill="#0b0c0e" d="
+            M78,10 H354 A68,68 0 0 1 422,78 V804 A68,68 0 0 1 354,872 H78 A68,68 0 0 1 10,804 V78 A68,68 0 0 1 78,10 Z
+            M71.5,15 H360.5 A52,52 0 0 1 412.5,67 V815 A52,52 0 0 1 360.5,867 H71.5 A52,52 0 0 1 19.5,815 V67 A52,52 0 0 1 71.5,15 Z"/>
+          <!-- Dynamic Island is drawn by the app's own status bar (shows through the screen cutout) -->
+          <rect x="-2" y="196" width="5" height="34" rx="2.5" fill="#3a3d42"/>
+          <rect x="-3" y="250" width="6" height="66" rx="3" fill="#3a3d42"/>
+          <rect x="-3" y="330" width="6" height="66" rx="3" fill="#3a3d42"/>
+          <rect x="429" y="286" width="6" height="104" rx="3" fill="#3a3d42"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="hint" id="hint">On the phone: Session Overview → <b>Connect to Screen</b> to open the TV here</div>
+
+<script>
+const VID_BASE = "{{ url_for('static', filename='video/') }}";
+const el = id => document.getElementById(id);
+let lastV = -1, lastVidSrc = '', tvOn = false;
+
+function layout(){
+  const wide = window.matchMedia('(min-width:821px)').matches;
+  const stage = el('stage'), ph = el('iphone');
+  if (!wide){
+    if (tvOn) el('tvWrap').style.width = '92vw';
+    const s = Math.min((window.innerWidth - 24) / 432, 0.92);
+    ph.style.transform = 'scale(' + s.toFixed(3) + ')';
+    stage.style.width = (432 * s) + 'px'; stage.style.height = (882 * s) + 'px';
+    return;
+  }
+  const H = window.innerHeight - 88;
+  const gap = window.innerWidth * 0.04 + 44;
+  let phS = Math.min(H / 882, 1);
+  let phW = 432 * phS;
+  if (tvOn){
+    let tvW = Math.min(window.innerWidth - phW - gap, H * (16 / 9), 980);
+    if (tvW < 380){
+      phS = Math.min(H / 882, (window.innerWidth * 0.40) / 432);
+      phW = 432 * phS;
+      tvW = Math.min(window.innerWidth - phW - gap, H * (16 / 9), 980);
+    }
+    el('tvWrap').style.width = Math.max(tvW, 300) + 'px';
+  }
+  ph.style.transform = 'scale(' + phS.toFixed(3) + ')';
+  stage.style.width = phW + 'px';
+  stage.style.height = (882 * phS) + 'px';
+}
+addEventListener('resize', layout);
+requestAnimationFrame(layout); setTimeout(layout, 150); setTimeout(layout, 600);
+
+/* the phone posts this when the user taps "Connect to Screen" (TVSync.connect/disconnect) */
+window.addEventListener('message', (e)=>{
+  const d = e.data || {};
+  if (!d || d.sadhana !== 'tv') return;
+  tvOn = !!d.connected;
+  el('tvCol').classList.toggle('show', tvOn);
+  el('hint').hidden = tvOn;
+  requestAnimationFrame(layout); setTimeout(layout, 60); setTimeout(layout, 420);
+});
+
+function apply(s){
+  if (!tvOn) return;
+  const idle = !s || !s.mode || s.mode === 'idle';
+  el('idleView').hidden = !idle;
+  el('brow').hidden = idle; el('figBox').hidden = idle; el('name').hidden = idle; el('meta').hidden = idle;
+  el('tv').classList.toggle('paused', !!(s && s.paused));
+  if (idle) return;
+  const phase = s.phase || s.sub || 'Breathe in';
+  el('phase').textContent = phase;
+  const p = phase.toLowerCase();
+  const tv = el('tv');
+  tv.classList.toggle('br-in',   p.indexOf('breathe in') === 0);
+  tv.classList.toggle('br-hold', p.indexOf('hold') === 0);
+  tv.classList.toggle('br-out',  p.indexOf('breathe out') === 0);
+  el('name').textContent = s.name || '';
+  el('cd').textContent = s.count != null ? (s.count + ' sec') : (s.timer || '');
+  el('cd').style.display = (s.count != null || s.timer) ? '' : 'none';
+  el('barI').style.width = Math.max(0, Math.min(100, s.progress || 0)) + '%';
+  const v = el('vid');
+  const src = s.video ? (VID_BASE + s.video) : '';
+  el('figBox').hidden = !src;                       // no video yet → just the breath ring + phase
+  if (src && src !== lastVidSrc){
+    lastVidSrc = src; v.src = src; v.loop = true; v.muted = true; v.play().catch(()=>{});
+  } else if (!src){ lastVidSrc = ''; try { v.pause(); v.removeAttribute('src'); v.load(); } catch(e){} }
+}
+async function poll(){
+  try{ const r = await fetch('/session/state',{cache:'no-store'}); const j = await r.json();
+    if (j.v !== lastV){ lastV = j.v; apply(j.state); } }catch(e){}
+  setTimeout(poll, 300);
+}
+poll();
+</script>
+</body>
+</html>

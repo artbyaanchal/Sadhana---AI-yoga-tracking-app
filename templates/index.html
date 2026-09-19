@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1C4E6B">
+<title>Sadhana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}?v={{ ASSET_V }}">
+</head>
+<body>
+  <!-- brand splash - paints instantly, before the app JS runs (logo from Figma node 781:2035) -->
+  <div id="splash" aria-hidden="true">
+    <div class="sp-in">
+      <svg class="sp-logo" viewBox="0 0 23 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.7754 1.85156C13.6224 1.45105 16.2539 3.43744 16.6494 6.28516C17.0447 9.13273 15.0543 11.7609 12.2061 12.1514C9.36483 12.5408 6.74511 10.5554 6.35059 7.71484C5.95629 4.87443 7.93574 2.25124 10.7754 1.85156Z" stroke="#fff" stroke-width="1.6"/>
+        <path d="M11.246 15.0265C11.8835 14.9599 12.621 15.0328 13.2576 15.0906C15.3881 15.284 16.9838 16.6225 16.9311 19.0166C16.676 19.408 16.6054 19.4442 16.204 19.6346C14.9045 19.2214 15.9341 18.2482 14.8241 17.311C13.8092 16.4841 12.1868 16.5947 10.9867 16.6871C9.37971 16.8108 7.22822 18.1946 7.55159 20.1471C7.99465 22.8222 11.4182 23.7786 13.4679 24.5929C15.6869 25.4744 18.0623 26.0466 20.0105 27.5229C21.961 28.9869 22.7403 31.7418 21.139 33.8313C18.849 36.8195 14.7075 36.9641 11.374 36.9979C7.85741 37.0334 1.5733 36.6747 1.00165 31.9631C0.979409 30.9547 1.17816 30.1328 1.80021 29.3451C2.97978 27.8514 4.70885 27.3066 6.48603 27.1349C6.99671 27.0856 7.76363 26.9781 8.18298 27.3613C8.27857 27.4487 8.32951 27.5503 8.33782 27.684C8.35078 27.8924 8.32912 28.2691 8.15819 28.4109C7.60928 28.8667 4.91552 28.2982 3.33449 30.1015C2.92893 30.5641 2.71542 31.1194 2.74574 31.7511C2.78109 32.4886 3.13668 33.1007 3.64902 33.5815C5.81611 35.6152 10.8345 35.4905 13.5993 35.3203C15.6411 35.1947 18.1433 34.765 19.5685 33.067C20.0289 32.5185 20.3136 31.8404 20.2629 31.0966C20.0756 28.3447 16.3851 27.3143 14.3511 26.6079C13.2759 26.2419 12.2075 25.8543 11.1465 25.4452C9.85348 24.9352 8.53109 24.3072 7.47986 23.3541C5.62499 21.6722 5.12791 19.0216 6.83106 17.0077C8.02741 15.5931 9.50273 15.1594 11.246 15.0265Z" fill="#fff"/>
+      </svg>
+      <div class="sp-name">Sadhana</div>
+    </div>
+  </div>
+
+  <div id="app" class="phone">
+    <div id="screen" class="screen"></div>
+  </div>
+  <div id="toast" class="toast" hidden></div>
+
+  <script>window.SADHANA_IMG = "{{ url_for('static', filename='img/') }}";
+          window.SADHANA_AUDIO = "{{ url_for('static', filename='audio/') }}";
+          window.SADHANA_VIDEO = "{{ url_for('static', filename='video/') }}";
+          window.SADHANA_MODEL = "{{ url_for('models', filename='pose_landmarker_lite.task') }}";</script>
+  <script src="{{ url_for('static', filename='js/data.js') }}?v={{ ASSET_V }}"></script>
+  <script src="{{ url_for('static', filename='js/tvsync.js') }}?v={{ ASSET_V }}"></script>
+  <script src="{{ url_for('static', filename='js/sound.js') }}?v={{ ASSET_V }}"></script>
+  <script src="{{ url_for('static', filename='js/components.js') }}?v={{ ASSET_V }}"></script>
+  <script src="{{ url_for('static', filename='js/pose.js') }}?v={{ ASSET_V }}"></script>
+  <script src="{{ url_for('static', filename='js/screens.js') }}?v={{ ASSET_V }}"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}?v={{ ASSET_V }}"></script>
+</body>
+</html>

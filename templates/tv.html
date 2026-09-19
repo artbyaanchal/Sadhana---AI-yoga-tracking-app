@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sadhana - Big Screen</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:#fff;overflow:hidden;font-family:'Quicksand',system-ui,sans-serif;color:#16232C}
+  #tv{width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:1.2vh;padding:3.4vh 4vw;background:#fff;position:relative}
+  .brow{display:flex;align-items:center;gap:1.6vh}
+  .ring{width:5.4vh;height:5.4vh;border-radius:50%;border:.5vh solid rgba(28,107,148,.35);display:grid;place-items:center}
+  .ring::after{content:"";width:2.8vh;height:2.8vh;border-radius:50%;border:.5vh solid #144B70;
+    transform:scale(.6);animation:tvbreathe 12s ease-in-out infinite}
+  #tv.paused .ring::after{animation-play-state:paused}
+  #tv.br-in .ring::after,#tv.br-hold .ring::after,#tv.br-out .ring::after{animation:none;transition:transform 3.4s ease-in-out}
+  #tv.br-in .ring::after{transform:scale(1)}
+  #tv.br-hold .ring::after{transform:scale(1);transition:transform .3s}
+  #tv.br-out .ring::after{transform:scale(.5)}
+  @keyframes tvbreathe{0%{transform:scale(.6)}30%{transform:scale(1)}55%{transform:scale(1)}100%{transform:scale(.6)}}
+  .phase{font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:2vh;color:#717171}
+  .fig{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;width:100%;overflow:hidden}
+  .fig video{max-height:100%;max-width:97vw;width:auto;height:auto;object-fit:contain;background:#fff}
+  .name{font-weight:700;font-size:3.6vh;color:#16232C;text-align:center;flex:none}
+  .idle{display:flex;flex-direction:column;align-items:center;gap:2vh;color:#8AA3B0;text-align:center}
+  .idle h1{font-size:3.3vh;color:#16232C;font-weight:700}.idle p{font-size:1.9vh}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div id="tv">
+  <div class="idle" id="idleView">
+    <h1>Ready on the big screen</h1>
+    <p>Start your session on your phone - it will appear here.</p>
+  </div>
+  <div class="brow" id="brow" hidden><span class="ring"></span><span class="phase" id="phase">BREATH IN</span></div>
+  <div class="fig" id="figBox" hidden><video id="vid" muted loop playsinline></video></div>
+  <div class="name" id="name" hidden></div>
+</div>
+
+<script>
+const VID_BASE = "{{ url_for('static', filename='video/') }}";
+const el = id => document.getElementById(id);
+let lastV = -1, lastVidSrc = '';
+
+function apply(s){
+  const idle = !s || !s.mode || s.mode === 'idle';
+  el('idleView').hidden = !idle;
+  el('brow').hidden = idle; el('figBox').hidden = idle; el('name').hidden = idle;
+  el('tv').classList.toggle('paused', !!(s && s.paused));
+  if (idle) return;
+
+  const phase = s.phase || s.sub || 'Breathe in';
+  el('phase').textContent = phase;
+  const p = phase.toLowerCase(), tv = el('tv');
+  tv.classList.toggle('br-in',   p.indexOf('breathe in') === 0);
+  tv.classList.toggle('br-hold', p.indexOf('hold') === 0);
+  tv.classList.toggle('br-out',  p.indexOf('breathe out') === 0);
+  el('name').textContent = s.name || '';
+
+  const v = el('vid');
+  const src = s.video ? (VID_BASE + s.video) : '';
+  el('figBox').hidden = !src;
+  if (src && src !== lastVidSrc){
+    lastVidSrc = src; v.src = src; v.loop = true; v.muted = true; v.play().catch(()=>{});
+  } else if (!src){ lastVidSrc = ''; try { v.pause(); v.removeAttribute('src'); v.load(); } catch(e){} }
+}
+async function poll(){
+  try{ const r = await fetch('/session/state',{cache:'no-store'}); const j = await r.json();
+    if (j.v !== lastV){ lastV = j.v; apply(j.state); } }catch(e){}
+  setTimeout(poll, 300);
+}
+poll();
+</script>
+</body>
+</html>

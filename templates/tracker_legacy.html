@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tree Pose Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #container {
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        #video-feed {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+        
+        #loading {
+            position: absolute;
+            color: #666;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            #video-feed {
+                object-fit: cover;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="loading">Loading camera feed...</div>
+        <img id="video-feed" src="{{ url_for('video_feed') }}" alt="Camera Feed">
+    </div>
+    
+    <script>
+        const videoFeed = document.getElementById('video-feed');
+        const loading = document.getElementById('loading');
+        
+        videoFeed.onload = function() {
+            loading.style.display = 'none';
+        };
+        
+        videoFeed.onerror = function() {
+            loading.textContent = '❌ Camera error. Please check camera connection.';
+            loading.style.color = '#ff6b6b';
+        };
+        
+        // Refresh feed if page becomes visible again
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                const src = videoFeed.src;
+                if (src) {
+                    videoFeed.src = src.split('?')[0] + '?_=' + Date.now();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
