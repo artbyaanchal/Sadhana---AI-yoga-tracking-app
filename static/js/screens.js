@@ -77,7 +77,7 @@ SCREENS.signup = () => {
     h('div',{class:'field-label'}, 'Email'), email,
     h('div',{class:'field-label'}, 'Password'), pass,
     h('div',{style:{height:'22px'}}),
-    h('button',{class:'btn cta', onclick:()=>{
+    h('button',{class:'btn', onclick:()=>{
       if(!name.value||!email.value||!pass.value) return toast('Fill in all fields');
       Store.set('name',name.value); Store.set('email',email.value); go('ob-name');
     }}, 'Register'),
@@ -437,7 +437,7 @@ function planScreen({ standalone=false, from=null } = {}){
     const tw = timeWheel(reminder || {h:7,m:0,ap:'AM'});
     const close = openSheet(h('div',{},
       tw.node,
-      h('button',{class:'btn cta', style:{marginTop:'16px'}, onclick:()=>{
+      h('button',{class:'btn', style:{marginTop:'16px'}, onclick:()=>{
         reminder = tw.getValue(); Store.set('reminder',reminder); drawRem(); close(); toast('Reminder set for '+reminder.label);
       }}, 'Set reminder time')
     ), { title:'Reminder time' });
@@ -530,7 +530,7 @@ function planScreen({ standalone=false, from=null } = {}){
     );
   }
 
-  const save = h('button',{class:'btn cta', onclick:()=>{
+  const save = h('button',{class:'btn', onclick:()=>{
     Store.set('days',[...onDays]);
     Store.set('onboarded', true);
     go(fromSet ? 'settings' : standalone ? 'home' : 'ob-ready');
@@ -554,7 +554,7 @@ SCREENS['ob-ready'] = () => {
       h('div',{class:'big-check', html:'<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'}),
       h('h1',{class:'h-title',style:{fontSize:'26px'}}, 'Your plan is ready!'),
       h('p',{class:'h-sub'}, "We've built a personalized practice just for you, based on your goals and level."),
-      h('button',{class:'btn cta', style:{maxWidth:'260px',marginTop:'10px'}, onclick:()=>showSplash(()=>go('home'))}, 'Go to Home'),
+      h('button',{class:'btn', style:{maxWidth:'260px',marginTop:'10px'}, onclick:()=>showSplash(()=>go('home'))}, 'Go to Home'),
     )
   });
 };
@@ -1061,9 +1061,9 @@ SCREENS['session-done'] = (p={}) => {
         h('div',{style:{textAlign:'center'}}, h('b',{style:{display:'block',fontFamily:'Quicksand',fontWeight:700,color:'var(--navy)',fontSize:'17px'}}, (Store.get('treeLeft',val))+'%'), h('span',{style:{fontSize:'11px',color:'var(--muted)'}}, 'Left leg')),
         h('div',{style:{textAlign:'center'}}, h('b',{style:{display:'block',fontFamily:'Quicksand',fontWeight:700,color:'var(--navy)',fontSize:'17px'}}, (Store.get('treeRight',val))+'%'), h('span',{style:{fontSize:'11px',color:'var(--muted)'}}, 'Right leg'))),
       TVSync.connected
-        ? h('button',{class:'btn cta', style:{maxWidth:'260px',marginTop:'18px'},
+        ? h('button',{class:'btn', style:{maxWidth:'260px',marginTop:'18px'},
             onclick:()=>{ TVSync.disconnect(); go('progress'); }}, 'Disconnect & see progress')
-        : h('button',{class:'btn cta', style:{maxWidth:'260px',marginTop:'18px'}, onclick:()=>go('progress')}, 'See progress'),
+        : h('button',{class:'btn', style:{maxWidth:'260px',marginTop:'18px'}, onclick:()=>go('progress')}, 'See progress'),
       TVSync.connected
         ? h('button',{class:'btn ghost', style:{maxWidth:'260px',marginTop:'10px'}, onclick:()=>go('connect')}, 'Keep casting')
         : h('div',{class:'btn-text', onclick:()=>go('home')}, 'Back to home'),
@@ -1087,7 +1087,7 @@ SCREENS.music = () => {
     scroll:[
       picker,
     ],
-    footer: h('button',{class:'btn cta', onclick:()=>{ Ambience.stop(); go('home'); }}, 'Save'),
+    footer: h('button',{class:'btn', onclick:()=>{ Ambience.stop(); go('home'); }}, 'Save'),
   });
   root._cleanup = ()=> Ambience.stop();
   return root;
@@ -1113,7 +1113,7 @@ SCREENS['med-setup'] = () => {
         h('button',{class:'round-btn', onclick:()=>{ mins=Math.min(60,mins+1); fmt(); }}, '+')),
       picker,
     ],
-    footer: h('button',{class:'btn cta', onclick:()=>{
+    footer: h('button',{class:'btn', onclick:()=>{
       Ambience.stop();
       if (Store.get('medMode','sound') === 'chant') go('chant-why', {id:Store.get('medChant','aum')});
       else go('med-intro');
@@ -1546,7 +1546,7 @@ SCREENS.connect = () => {
       h('span',{}, 'Casting your session now. Follow along on the big screen.'));
     wrap.classList.add('is-connected');
     body.replaceChildren(...[
-      h('button',{class:'btn cta', onclick:()=>go('warmup')}, 'Start Session'),
+      h('button',{class:'btn', onclick:()=>go('warmup')}, 'Start Session'),
       h('button',{class:'btn ghost', onclick:()=>{ TVSync.disconnect(); go('connect'); }}, 'Disconnect'),
     ].filter(Boolean));
   }

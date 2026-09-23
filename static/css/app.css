@@ -147,7 +147,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .checkrow label{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--text)}
 .link{color:var(--navy);font-weight:600;font-size:14px}
 
-/* ---- buttons: enabled / hover / pressed / cta -------------- */
+/* ---- buttons: primary, enabled / hover / pressed ----------- */
 .btn{
   --b:var(--navy);
   width:100%;height:53px;border-radius:999px;background:var(--b);color:#fff;
@@ -159,12 +159,6 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
   box-shadow:0 8px 18px rgba(20,75,112,.22)}           /* hover  (Figma) */
 .btn:active{transform:translateY(1px) scale(.99);background:#0E3A56;
   box-shadow:0 3px 9px rgba(28,78,107,.22)}            /* pressed */
-.btn.cta{                                               /* cta    */
-  background:linear-gradient(135deg,#2E6C8E,#1C4E6B);
-  box-shadow:0 6px 16px rgba(28,78,107,.24);
-}
-.btn.cta:hover{background:linear-gradient(135deg,#357B9F,#22597C);
-  box-shadow:0 9px 20px rgba(28,78,107,.28)}
 .btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--line-strong);box-shadow:none}
 .btn.ghost:hover{background:#F1F6F8;transform:translateY(-1px);box-shadow:0 6px 14px rgba(20,75,112,.12)}
 .btn:disabled{opacity:.45;box-shadow:none;pointer-events:none}
@@ -706,7 +700,7 @@ textarea.input{height:auto;min-height:96px;padding:14px 16px;resize:vertical;lin
 .connect-status b{font-family:'Quicksand';font-weight:700;font-size:18px;color:var(--ink)}
 .connect-status span{font-size:13px;color:var(--muted);line-height:1.5}
 
-/* CTA + secondary buttons stacked, each its own single outline */
+/* primary + secondary buttons stacked, each its own single outline */
 .connect-body{width:100%}
 .is-connected .connect-body{display:flex;flex-direction:column;align-items:stretch;gap:12px}
 .is-connected .connect-body > .btn{width:100%;max-width:none}
